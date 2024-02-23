@@ -1,7 +1,9 @@
-function telephoneCheck(str) {
-	const numbers = '0123456789';
-	const specials = '()- ';
-	const formats = [
+function telephoneCheck(s) {
+	const l = s.length;
+	let f = '';
+
+	const b = new Set(['(', ')', '-', ' ']);
+	const d = new Set([
 		'xxx-xxx-xxxx',
 		'(xxx)xxx-xxxx',
 		'(xxx) xxx-xxxx',
@@ -11,24 +13,21 @@ function telephoneCheck(str) {
 		'x xxx-xxx-xxxx',
 		'x (xxx) xxx-xxxx',
 		'x(xxx)xxx-xxxx',
-	];
+	]);
 
-	const nums = str.split('');
-	const length = nums.length;
-	const final = [];
+	// if it starts with 1
+	// must be followed by space or (
+	if (s[0] !== '1' && (s[1] === ' ' || s[1] === '(')) return false;
 
-	// invalid format
-	if (nums[0] !== '1' && (nums[1] === ' ' || nums[1] === '(')) return false;
+	for (let i = 0; i < l; i++) {
+		const y = s[i];
+		const vY = isNaN(parseInt(y));
 
-	for (let i = 0; i < length; i++) {
-		const isValid = numbers.includes(nums[i]);
-		const isInvalid = !specials.includes(nums[i]) && !numbers.includes(nums[i]);
+		// invalid symbol and NaN
+		if (!b.has(y) && vY) return false;
 
-		// invalid character
-		if (isInvalid) return false;
-
-		final.push(isValid ? 'x' : nums[i]);
+		f += !vY ? 'x' : y;
 	}
 
-	return formats.includes(final.join(''));
+	return d.has(f);
 }

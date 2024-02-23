@@ -1,23 +1,24 @@
-function rot13(str) {
-	const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-	const letters = str.split('');
-	const length = letters.length;
-	const final = [];
+function rot13(s) {
+	const a = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	const ls = s.split('');
+	const len = ls.length;
+	let f = '';
 
-	for (let i = 0; i < length; i++) {
-		const letter = letters[i];
-		const isAlpha = alphabet.includes(letter);
+	for (let i = 0; i < len; i++) {
+		const l = ls[i];
+		const ia = a.includes(l);
 
-		if (isAlpha) {
-			const oldIndex = alphabet.indexOf(letter) + 14; // 13 + 1
-			const newIndex = oldIndex === 26 ? 26 : oldIndex % 26;
-			const newLetter = alphabet[newIndex - 1];
-
-			final.push(newLetter);
-		} else {
-			final.push(letter);
+		if (!ia) {
+			f += l;
+			continue;
 		}
+
+		const oi = a.indexOf(l) + 14; // 13 + 1
+		const ni = oi === 26 ? 26 : oi % 26;
+		const nl = a[ni - 1];
+
+		f += nl;
 	}
 
-	return final.join('');
+	return f;
 }
